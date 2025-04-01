@@ -7,11 +7,11 @@ import Dashboard from './components/Dashboard';
 import './App.css';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const user = localStorage.getItem('user');
+  // const user = localStorage.getItem('user');
   
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" />;
+  // }
   
   return <>{children}</>;
 };

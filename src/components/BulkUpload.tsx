@@ -4,14 +4,6 @@ import Papa from 'papaparse';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Alert, AlertDescription } from './ui/alert';
 import { smsService } from '../services/api';
@@ -30,7 +22,7 @@ const BulkUpload: React.FC = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
   const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>('');
+  const [, setFileName] = useState<string>('');
   const [previewData, setPreviewData] = useState<PreviewData[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [phoneColumn, setPhoneColumn] = useState<string>('');
@@ -245,15 +237,16 @@ const BulkUpload: React.FC = () => {
         };
       });
       
-      const response = await smsService.sendBulkSMS(
+      await smsService.sendBulkSMS(
         processedContacts.map(c => ({ phone: c.phone })),
         message // Using original message as a fallback
       );
       
       setSuccess(true);
       setLoading(false);
-    } catch (err: any) {
-      setError(err.message || 'Failed to send messages');
+    } catch (err: Error | unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to send messages';
+      setError(errorMessage);
       setLoading(false);
     }
   };
