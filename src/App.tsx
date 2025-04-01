@@ -3,14 +3,15 @@ import { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const user = localStorage.getItem('user');
+  // const user = localStorage.getItem('user');
   
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" />;
+  // }
   
   return <>{children}</>;
 };
@@ -33,11 +34,7 @@ function App() {
           path="/dashboard" 
           element={
             <ProtectedRoute>
-              <div className="p-8">
-                <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-                <p>Welcome to your LightSMS dashboard!</p>
-                <p>This is a placeholder for the SMS dashboard.</p>
-              </div>
+              <Dashboard />
             </ProtectedRoute>
           } 
         />

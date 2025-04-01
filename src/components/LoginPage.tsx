@@ -45,8 +45,19 @@ const LoginPage = () => {
       }));
       
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred during login');
+    } catch (err: Error | unknown) {
+      interface ApiErrorResponse {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      }
+      
+      const errorMessage = err instanceof Error ? 
+        (err as Error & ApiErrorResponse).response?.data?.message || err.message : 
+        'An error occurred during login';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
