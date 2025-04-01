@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { smsService, authService } from '../services/api';
 import BulkUpload from './BulkUpload';
+import AIChatComposer from './AIChatComposer';
+import CampaignCreator from './CampaignCreator';
 
 import { 
   LineChart, 
@@ -372,9 +374,11 @@ const Dashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="send" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="send">Send SMS</TabsTrigger>
+            <TabsTrigger value="ai">AI Composer</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+            <TabsTrigger value="campaign-creator">Create Campaign</TabsTrigger>
             <TabsTrigger value="bulk">Bulk Upload</TabsTrigger>
           </TabsList>
           
@@ -607,7 +611,7 @@ const Dashboard = () => {
                               dataKey="value"
                               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                             >
-                              {getStatusData().map((entry, index) => (
+                              {getStatusData().map((_, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                               ))}
                             </Pie>
@@ -639,7 +643,7 @@ const Dashboard = () => {
                             />
                             <YAxis label={{ value: 'Messages', angle: -90, position: 'insideLeft' }} />
                             <Tooltip 
-                              formatter={(value, name, props) => [value, 'Messages']}
+                              formatter={(value, _name, _props) => [value, 'Messages']}
                               labelFormatter={(hour) => `${hour}:00 - ${hour}:59`}
                             />
                             <Line 
@@ -741,6 +745,21 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+          
+          <TabsContent value="ai">
+            <div className="grid grid-cols-1 gap-6">
+              <AIChatComposer 
+                onMessageGenerated={(message) => {
+                  setMessage(message);
+                  setActiveTab('send');
+                }}
+              />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="campaign-creator">
+            <CampaignCreator />
           </TabsContent>
           
           <TabsContent value="bulk">
