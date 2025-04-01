@@ -215,37 +215,38 @@ async def get_pricing_plans():
             "id": "basic",
             "name": "Basic",
             "price": 10.0,
-            "description": "Perfect for small businesses and individuals",
+            "description": "Perfect for individuals and small businesses just getting started with SMS marketing.",
             "features": [
-                "100 SMS messages per month",
-                "Basic delivery tracking",
+                "1000 SMS credits per month",
+                "Contact management",
+                "Basic templates",
                 "Email support"
             ]
         },
         {
             "id": "pro",
-            "name": "Professional",
-            "price": 25.0,
-            "description": "Ideal for growing businesses",
+            "name": "Pro",
+            "price": 20.0,
+            "description": "Ideal for growing businesses with regular SMS marketing campaigns.",
             "features": [
-                "500 SMS messages per month",
-                "Advanced delivery tracking",
-                "Message templates",
-                "Priority email support"
+                "2000 SMS credits per month",
+                "Advanced analytics",
+                "Campaign scheduling",
+                "AI copywriting (100 prompts)",
+                "Priority support"
             ]
         },
         {
             "id": "enterprise",
             "name": "Enterprise",
-            "price": 50.0,
-            "description": "For large organizations with high volume needs",
+            "price": 40.0,
+            "description": "For businesses with high-volume SMS marketing needs and custom requirements.",
             "features": [
-                "2000 SMS messages per month",
-                "Advanced delivery tracking",
-                "Message templates",
+                "4000 SMS credits per month",
+                "Custom integrations",
                 "Dedicated account manager",
-                "Phone support",
-                "API access"
+                "Unlimited AI copywriting",
+                "24/7 priority support"
             ]
         }
     ]

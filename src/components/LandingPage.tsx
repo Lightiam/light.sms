@@ -228,38 +228,30 @@ const LandingPage = () => {
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-gray-900">Simple, Transparent Pricing</h2>
             <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-              Start with our affordable plan and upgrade as your needs grow
+              Choose the plan that's right for your business
             </p>
           </div>
 
-          <div className="mt-12 flex justify-center">
-            <Card className="w-full max-w-md border-2 border-blue-800">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Basic Plan */}
+            <Card className="w-full border-2 border-gray-200 flex flex-col">
               <CardHeader className="text-center bg-blue-50 border-b border-blue-100">
-                <CardTitle className="text-2xl font-bold text-blue-800">Standard Plan</CardTitle>
+                <CardTitle className="text-xl font-bold text-gray-900">Basic</CardTitle>
                 <div className="mt-4">
-                  <span className="text-5xl font-extrabold text-gray-900">$10</span>
-                  <span className="text-xl text-gray-500">/month</span>
+                  <span className="text-4xl font-extrabold text-gray-900">$10</span>
+                  <span className="text-lg text-gray-500">/month</span>
                 </div>
+                <p className="mt-2 text-sm text-gray-600">
+                  Perfect for individuals and small businesses just getting started with SMS marketing.
+                </p>
               </CardHeader>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 flex-grow">
                 <ul className="space-y-4">
                   <li className="flex items-start">
                     <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-gray-700">Unlimited SMS messages</span>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">Bulk messaging capabilities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">Delivery tracking</span>
+                    <span className="text-gray-700">1000 SMS credits per month</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -271,13 +263,132 @@ const LandingPage = () => {
                     <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-gray-700">Basic analytics</span>
+                    <span className="text-gray-700">Basic templates</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Email support</span>
                   </li>
                 </ul>
                 <div className="mt-8">
                   <Link to="/signup">
-                    <Button className="w-full bg-blue-800 hover:bg-blue-700 py-6">
+                    <Button className="w-full bg-blue-800 hover:bg-blue-700 py-4">
                       Get Started
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Pro Plan */}
+            <Card className="w-full border-2 border-blue-800 flex flex-col transform scale-105 shadow-xl z-10">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                Most Popular
+              </div>
+              <CardHeader className="text-center bg-blue-50 border-b border-blue-100">
+                <CardTitle className="text-xl font-bold text-gray-900">Pro</CardTitle>
+                <div className="mt-4">
+                  <span className="text-4xl font-extrabold text-gray-900">$20</span>
+                  <span className="text-lg text-gray-500">/month</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-600">
+                  Ideal for growing businesses with regular SMS marketing campaigns.
+                </p>
+              </CardHeader>
+              <CardContent className="pt-6 flex-grow">
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">2000 SMS credits per month</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Advanced analytics</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Campaign scheduling</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">AI copywriting (100 prompts)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Priority support</span>
+                  </li>
+                </ul>
+                <div className="mt-8">
+                  <Link to="/signup">
+                    <Button className="w-full bg-blue-800 hover:bg-blue-700 py-4">
+                      Start Free Trial
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Enterprise Plan */}
+            <Card className="w-full border-2 border-gray-200 flex flex-col">
+              <CardHeader className="text-center bg-blue-50 border-b border-blue-100">
+                <CardTitle className="text-xl font-bold text-gray-900">Enterprise</CardTitle>
+                <div className="mt-4">
+                  <span className="text-4xl font-extrabold text-gray-900">$40</span>
+                  <span className="text-lg text-gray-500">/month</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-600">
+                  For businesses with high-volume SMS marketing needs and custom requirements.
+                </p>
+              </CardHeader>
+              <CardContent className="pt-6 flex-grow">
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">4000 SMS credits per month</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Custom integrations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Dedicated account manager</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Unlimited AI copywriting</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-800 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">24/7 priority support</span>
+                  </li>
+                </ul>
+                <div className="mt-8">
+                  <Link to="/signup">
+                    <Button className="w-full bg-blue-800 hover:bg-blue-700 py-4">
+                      Contact Sales
                     </Button>
                   </Link>
                 </div>
