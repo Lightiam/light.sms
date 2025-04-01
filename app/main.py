@@ -6,12 +6,22 @@ import os
 import requests
 from typing import List
 
-from database import db
-from auth import (
-    User, UserCreate, Token, authenticate_user, create_access_token,
-    get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
-)
-from models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+try:
+    from database_pg import db_pg as db
+    from models_pg import User, UserCreate, Token, SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+    from auth import (
+        authenticate_user, create_access_token,
+        get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+    print("Using PostgreSQL database")
+except ImportError:
+    from database import db
+    from auth import (
+        User, UserCreate, Token, authenticate_user, create_access_token,
+        get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+    from models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+    print("Using CouchDB database")
 
 app = FastAPI(title="LightSMS API", description="Bulk SMS messaging API using TextBelt")
 
