@@ -6,20 +6,8 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Checkbox } from './ui/checkbox';
 import { DateTimePicker } from './ui/date-time-picker';
-
-interface Template {
-  id: string;
-  name: string;
-  content: string;
-  createdAt: string;
-}
-
-interface ContactGroup {
-  id: string;
-  name: string;
-  count: number;
-  createdAt: string;
-}
+import { predictOptimalSendTimes, generateMessageSuggestions } from '../services/mlService';
+import { Template, ContactGroup, Contact } from '../types';
 
 interface CampaignData {
   name: string;
@@ -42,6 +30,9 @@ const CampaignCreator: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [messageSuggestions, setMessageSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,6 +64,15 @@ const CampaignCreator: React.FC = () => {
             createdAt: new Date().toISOString() 
           }
         ]);
+
+        setContacts([
+          { id: '1', name: 'John Doe', phone: '+12345678901', email: 'john@example.com' },
+          { id: '2', name: 'Jane Smith', phone: '+12345678902', email: 'jane@example.com' },
+          { id: '3', name: 'Bob Johnson', phone: '+12345678903', email: 'bob@example.com' }
+        ]);
+
+        const suggestions = await generateMessageSuggestions('retail', 'promotional');
+        setMessageSuggestions(suggestions);
       } catch (err) {
         console.error('Failed to fetch data:', err);
         setError('Failed to load contact groups and templates');
@@ -106,24 +106,32 @@ const CampaignCreator: React.FC = () => {
       return;
     }
     
-    const campaignData: CampaignData = {
-      name,
-      message,
-      contactGroupIds: selectedGroups,
-      scheduledTime: scheduledTime ? scheduledTime.toISOString() : new Date().toISOString(),
-      useOptimalTime
-    };
-    
     try {
       setLoading(true);
       setError('');
       setSuccess('');
       
+      let optimizedContacts: Contact[] = [];
+      if (useOptimalTime) {
+        optimizedContacts = await predictOptimalSendTimes(contacts, message);
+        console.log('Optimized send times:', optimizedContacts);
+      }
+      
+      const campaignData: CampaignData = {
+        name,
+        message,
+        contactGroupIds: selectedGroups,
+        scheduledTime: scheduledTime ? scheduledTime.toISOString() : new Date().toISOString(),
+        useOptimalTime
+      };
+      
       console.log('Creating campaign:', campaignData);
       
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setSuccess('Campaign scheduled successfully!');
+      setSuccess(useOptimalTime 
+        ? 'Campaign scheduled successfully with ML-optimized send times!' 
+        : 'Campaign scheduled successfully!');
       
       setName('');
       setMessage('');
@@ -188,15 +196,51 @@ const CampaignCreator: React.FC = () => {
   );
 
   const MLOptimizationToggle = () => (
-    <div className="flex items-center space-x-2">
-      <Checkbox
-        id="ml-optimization"
-        checked={useOptimalTime}
-        onCheckedChange={(checked) => setUseOptimalTime(checked === true)}
-      />
-      <Label htmlFor="ml-optimization" className="cursor-pointer">
-        Use ML to determine optimal send time for each recipient
-      </Label>
+    <div className="space-y-2">
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="ml-optimization"
+          checked={useOptimalTime}
+          onCheckedChange={(checked) => setUseOptimalTime(checked === true)}
+        />
+        <Label htmlFor="ml-optimization" className="cursor-pointer">
+          Use ML to determine optimal send time for each recipient
+        </Label>
+      </div>
+      {useOptimalTime && (
+        <div className="ml-6 text-sm text-gray-600">
+          <p>Our ML model will analyze each recipient's engagement patterns to determine the best time to deliver your message.</p>
+        </div>
+      )}
+    </div>
+  );
+  
+  const MessageSuggestions = () => (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Label>AI Message Suggestions</Label>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={() => setShowSuggestions(!showSuggestions)}
+        >
+          {showSuggestions ? 'Hide Suggestions' : 'Show Suggestions'}
+        </Button>
+      </div>
+      
+      {showSuggestions && (
+        <div className="space-y-2 mt-2">
+          {messageSuggestions.map((suggestion, index) => (
+            <div 
+              key={index} 
+              className="p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"
+              onClick={() => setMessage(suggestion)}
+            >
+              <p className="text-sm">{suggestion}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -257,6 +301,8 @@ const CampaignCreator: React.FC = () => {
                 required
               />
             )}
+            
+            <MessageSuggestions />
           </div>
           
           <div className="space-y-2">
