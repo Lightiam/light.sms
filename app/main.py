@@ -34,6 +34,9 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+from routes import router as sms_router
+app.include_router(sms_router, prefix="/api/sms", tags=["sms"])
+
 TEXTBELT_API_URL = "https://textbelt.com/text"
 TEXTBELT_API_KEY = os.getenv("TEXTBELT_API_KEY", "")
 
