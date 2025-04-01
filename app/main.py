@@ -6,12 +6,12 @@ import os
 import requests
 from typing import List
 
-from app.database import db
-from app.auth import (
+from database import db
+from auth import (
     User, UserCreate, Token, authenticate_user, create_access_token,
     get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
 )
-from app.models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+from models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
 
 app = FastAPI(title="LightSMS API", description="Bulk SMS messaging API using TextBelt")
 
