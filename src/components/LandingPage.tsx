@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, MessageSquare, Users, BarChart3 } from 'lucide-react';
+import { ArrowRight, MessageSquare, Users, BarChart3 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 
@@ -35,7 +35,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                Build Healthy Relationships with Your Mind.
+                Powerful Bulk SMS Messaging Platform
               </h2>
               <p className="mt-6 text-lg text-gray-500">
                 Connect with your audience through powerful SMS messaging. Reach customers instantly with our reliable bulk SMS platform.
@@ -53,32 +53,7 @@ const LandingPage = () => {
                   </Button>
                 </Link>
               </div>
-              <div className="mt-8">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-xl font-bold text-blue-800">4.9</span>
-                  </div>
-                  <div className="ml-3">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-sm text-gray-500">App Store</p>
-                  </div>
-                  <div className="ml-8 flex-shrink-0">
-                    <span className="text-xl font-bold text-blue-800">4.8</span>
-                  </div>
-                  <div className="ml-3">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-sm text-gray-500">Google Play</p>
-                  </div>
-                </div>
-              </div>
+
             </div>
             <div className="flex justify-center">
               <div className="relative w-full max-w-md">
