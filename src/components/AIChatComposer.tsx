@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Avatar } from './ui/avatar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+
+import { Paperclip, Mic, Send, ChevronRight } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -29,7 +29,6 @@ const AIChatComposer: React.FC<AIChatComposerProps> = ({ onMessageGenerated }) =
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [generatedMessage, setGeneratedMessage] = useState('');
-  const [activeTab, setActiveTab] = useState('compose');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -109,17 +108,41 @@ const AIChatComposer: React.FC<AIChatComposerProps> = ({ onMessageGenerated }) =
   };
 
   return (
-    <Card className="flex flex-col h-full">
-      <CardHeader className="px-4 py-3 border-b">
-        <CardTitle className="text-lg">AI Message Composer</CardTitle>
-      </CardHeader>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-        <TabsList className="grid grid-cols-2 mx-4 mt-2">
-          <TabsTrigger value="compose">Compose</TabsTrigger>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="compose" className="flex-1 flex flex-col p-0 m-0">
+    <div className="flex h-full">
+      {/* Left Sidebar - Prompt Examples */}
+      <div className="w-64 border-r bg-gray-50 p-4 hidden md:block">
+        <h3 className="font-medium text-sm mb-3">How to use AI</h3>
+        <ul className="space-y-4 text-sm text-gray-600">
+          <li className="space-y-1">
+            <p className="font-medium">Ask for message suggestions</p>
+            <p className="text-xs">Ask the AI to create SMS templates for different purposes</p>
+          </li>
+          <li className="space-y-1">
+            <p className="font-medium">Request specific formats</p>
+            <p className="text-xs">Specify character limits, tone, or style for your messages</p>
+          </li>
+          <li className="space-y-1">
+            <p className="font-medium">Include variable placeholders</p>
+            <p className="text-xs">Ask for templates with [name], [date], or other variables</p>
+          </li>
+          <li className="space-y-1">
+            <p className="font-medium">Request industry-specific content</p>
+            <p className="text-xs">Specify if you need messages for healthcare, retail, etc.</p>
+          </li>
+          <li className="space-y-1">
+            <p className="font-medium">Ask for compliance guidance</p>
+            <p className="text-xs">Request messages that follow SMS marketing best practices</p>
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        <Card className="flex-1 flex flex-col border-0 rounded-none shadow-none">
+          <CardHeader className="px-4 py-3 border-b">
+            <CardTitle className="text-lg">AI Message Composer</CardTitle>
+          </CardHeader>
+          
           <CardContent className="flex-1 overflow-y-auto p-4">
             <div className="space-y-4">
               {messages.map((message) => (
@@ -155,55 +178,132 @@ const AIChatComposer: React.FC<AIChatComposerProps> = ({ onMessageGenerated }) =
           </CardContent>
           
           <div className="p-4 border-t">
-            <div className="flex space-x-2">
+            <div className="flex items-center space-x-2">
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="rounded-full"
+                onClick={() => alert('File upload feature coming soon')}
+              >
+                <Paperclip className="h-4 w-4" />
+              </Button>
+              
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message request here..."
-                className="min-h-[60px] resize-none"
+                className="min-h-[60px] resize-none rounded-full"
                 disabled={isLoading}
               />
-              <Button 
-                onClick={handleSendMessage} 
-                disabled={isLoading || !input.trim()}
-                className="bg-blue-800 hover:bg-blue-700"
-              >
-                {isLoading ? 'Thinking...' : 'Send'}
-              </Button>
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Prompt examples: "Create a promotional message for our summer sale" or "Draft a reminder for an upcoming appointment"
-            </p>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="preview" className="flex-1 flex flex-col p-0 m-0">
-          <CardContent className="flex-1 p-4 flex flex-col">
-            <div className="flex-1">
-              <h3 className="font-medium mb-2">Generated Message</h3>
-              <div className="border rounded-lg p-3 bg-gray-50 min-h-[200px]">
-                {generatedMessage ? (
-                  <p>{generatedMessage}</p>
-                ) : (
-                  <p className="text-gray-400">No message generated yet. Use the Compose tab to create a message.</p>
-                )}
+              
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-full"
+                  onClick={() => alert('Voice input feature coming soon')}
+                >
+                  <Mic className="h-4 w-4" />
+                </Button>
+                
+                <Button 
+                  onClick={handleSendMessage} 
+                  disabled={isLoading || !input.trim()}
+                  className="bg-green-600 hover:bg-green-500 rounded-full"
+                  size="icon"
+                >
+                  {isLoading ? 
+                    <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : 
+                    <Send className="h-4 w-4" />
+                  }
+                </Button>
               </div>
             </div>
             
-            <div className="mt-4 flex justify-end">
-              <Button 
-                onClick={handleUseMessage} 
-                disabled={!generatedMessage}
-                className="bg-blue-800 hover:bg-blue-700"
-              >
-                Use This Message
+            <div className="flex justify-between items-center mt-2">
+              <p className="text-xs text-gray-500">
+                Listening to Project? <span className="text-green-600 font-medium">Yes</span>
+              </p>
+              
+              {generatedMessage && (
+                <Button 
+                  onClick={handleUseMessage} 
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                >
+                  Use Generated Message <ChevronRight className="h-3 w-3 ml-1" />
+                </Button>
+              )}
+            </div>
+          </div>
+        </Card>
+      </div>
+      
+      {/* Right Sidebar - Settings */}
+      <div className="w-64 border-l bg-gray-50 p-4 hidden lg:block">
+        <h3 className="font-medium text-sm mb-3">Message Settings</h3>
+        <div className="space-y-4">
+          <div>
+            <p className="text-xs font-medium mb-1">Character limit</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500">160 characters</span>
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                Edit
               </Button>
             </div>
-          </CardContent>
-        </TabsContent>
-      </Tabs>
-    </Card>
+          </div>
+          
+          <div>
+            <p className="text-xs font-medium mb-1">Message tone</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500">Professional</span>
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                Change
+              </Button>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-xs font-medium mb-1">Include variables</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500">Name, Date</span>
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                Add
+              </Button>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-xs font-medium mb-1">Industry</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500">E-commerce</span>
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                Select
+              </Button>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-xs font-medium mb-1">Compliance check</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-green-600">Enabled</span>
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                Disable
+              </Button>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-xs font-medium mb-1">Generated messages</p>
+            <div className="text-xs text-gray-500">
+              {generatedMessage ? '1 message ready to use' : 'No messages yet'}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
