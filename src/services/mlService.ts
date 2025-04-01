@@ -1,9 +1,10 @@
-import { Contact, SmsMessage } from '../types';
+// import { Contact, SmsMessage } from '../types';
 
 
 export const predictOptimalSendTimes = async (
   contacts: Contact[], 
-  messageContent: string
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  _messageContent: string  // Unused but kept for API compatibility
 ): Promise<Contact[]> => {
   try {
     
@@ -42,7 +43,10 @@ export const predictOptimalSendTimes = async (
   }
 };
 
-export const analyzeSentiment = async (responseText: string): Promise<{
+export const analyzeSentiment = async (
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  _responseText: string
+): Promise<{
   score: number;
   isPositive?: boolean;
   isNegative?: boolean;
@@ -67,7 +71,8 @@ export const analyzeSentiment = async (responseText: string): Promise<{
 export const generateMessageSuggestions = async (
   industry: string,
   purpose: string,
-  tone: string = 'professional',
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  _tone: string = 'professional', // Unused but kept for API compatibility
   maxLength: number = 160
 ): Promise<string[]> => {
   try {
@@ -126,11 +131,21 @@ export const generateMessageSuggestions = async (
       }
     };
     
-    const industryTemplates = templates[industry.toLowerCase()] || templates.general;
+    const industryTemplates = templates[industry.toLowerCase() as keyof typeof templates] || templates.general;
     
-    const purposeTemplates = industryTemplates[purpose.toLowerCase()] || industryTemplates.promotional;
+    let purposeTemplates: string[] = [];
     
-    return purposeTemplates.filter(template => template.length <= maxLength);
+    if (typeof industryTemplates === 'object' && 
+        industryTemplates !== null && 
+        purpose.toLowerCase() in industryTemplates) {
+      purposeTemplates = (industryTemplates as Record<string, string[]>)[purpose.toLowerCase()];
+    } else if ('promotional' in industryTemplates) {
+      purposeTemplates = (industryTemplates as Record<string, string[]>).promotional;
+    } else {
+      purposeTemplates = templates.general.promotional;
+    }
+    
+    return purposeTemplates.filter((template: string) => template.length <= maxLength);
   } catch (error) {
     console.error('Failed to generate message suggestions:', error);
     return [

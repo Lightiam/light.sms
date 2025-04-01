@@ -44,8 +44,19 @@ const SignupPage = () => {
       }));
       
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred during signup');
+    } catch (err: Error | unknown) {
+      interface ApiErrorResponse {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      }
+      
+      const errorMessage = err instanceof Error ? 
+        (err as Error & ApiErrorResponse).response?.data?.message || err.message : 
+        'An error occurred during signup';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
