@@ -46,6 +46,10 @@ def get_password_hash(password):
 def get_user(email: str) -> Optional[UserInDB]:
     user_data = db.get_user_by_email(email)
     if user_data:
+        if '_id' in user_data and 'id' not in user_data:
+            user_data['id'] = user_data['_id']
+        if 'hashed_password' not in user_data and 'password_hash' in user_data:
+            user_data['hashed_password'] = user_data['password_hash']
         return UserInDB(**user_data)
     return None
 
