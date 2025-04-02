@@ -7,20 +7,20 @@ import requests
 from typing import List
 
 try:
-    from database_pg import db_pg as db
-    from models_pg import User, UserCreate, Token, SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
-    from auth import (
+    from app.database_pg import db_pg as db
+    from app.models_pg import User, UserCreate, Token, SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+    from app.auth import (
         authenticate_user, create_access_token,
         get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
     )
     print("Using PostgreSQL database")
 except ImportError:
-    from database import db
-    from auth import (
+    from app.database import db
+    from app.auth import (
         User, UserCreate, Token, authenticate_user, create_access_token,
         get_current_active_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
     )
-    from models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
+    from app.models import SMSMessage, SMSResponse, SMSBatchResponse, PricingPlan
     print("Using CouchDB database")
 
 app = FastAPI(title="LightSMS API", description="Bulk SMS messaging API using TextBelt")
@@ -34,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-from routes import router as sms_router
+from app.routes import router as sms_router
 app.include_router(sms_router, prefix="/api/sms", tags=["sms"])
 
 TEXTBELT_API_URL = "https://textbelt.com/text"

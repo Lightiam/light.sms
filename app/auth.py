@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 
-from database import db
+from app.database import db
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"  # Change in production
 ALGORITHM = "HS256"
@@ -46,6 +46,10 @@ def get_password_hash(password):
 def get_user(email: str) -> Optional[UserInDB]:
     user_data = db.get_user_by_email(email)
     if user_data:
+        if '_id' in user_data and 'id' not in user_data:
+            user_data['id'] = user_data['_id']
+        if 'hashed_password' not in user_data and 'password_hash' in user_data:
+            user_data['hashed_password'] = user_data['password_hash']
         return UserInDB(**user_data)
     return None
 

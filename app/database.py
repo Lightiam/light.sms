@@ -50,6 +50,7 @@ class Database:
                 logger.error(f"Error querying CouchDB: {e}")
                 return None
         else:
+            print(f"In-memory DB users: {self.in_memory_db.get('users', {})}")
             for user_id, user in self.in_memory_db.get("users", {}).items():
                 if user.get("email") == email:
                     return user
