@@ -5,12 +5,12 @@ import os
 import requests
 import json
 
-from database_pg import db_pg as db
-from models_pg import (
+from app.database_pg import db_pg as db
+from app.models_pg import (
     User, Campaign, CampaignCreate, SmsMessage, SmsMessageCreate, 
     SMSResponse, SMSBatchResponse, PricingPlan
 )
-from auth import get_current_active_user
+from app.auth import get_current_active_user
 
 router = APIRouter()
 
